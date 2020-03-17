@@ -7,6 +7,6 @@
         "build": "build-page --dest docs"
     },
     "devDependencies": {
-        "@hookun/builder": "^0.2.21"
+        "@hookun/builder": "^0.2.22"
     }
 }
