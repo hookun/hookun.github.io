@@ -1,5 +1,5 @@
 main {
-    --Gap: 0.5rem;
+    --Gap: 0.8rem;
     &>* {
         width: var(--BaseWidth);
     }
@@ -71,14 +71,14 @@ figure {
     clear: both;
     margin: 2rem auto;
     &>h3 {
-        padding: 0;
-        line-height: 1rem;
-        margin: 1rem auto;
+        transform: translateY(-0.5rem);
+        margin-bottom: 0;
+        text-decoration: none;
     }
     &>figure {
         float: right;
-        width: calc(var(--BaseWidth) / 2 - var(--Gap));
-        margin-left: calc(var(--Gap) * 2);
+        width: calc((var(--BaseWidth) - var(--Gap)) / 2);
+        margin-left: calc(var(--Gap) + 0.5rem);
     }
     &::after {
         clear: both;
@@ -115,11 +115,15 @@ figure {
         width: 100%;
         height: 0;
     }
+    @media (max-width: 775px) {
+        margin-bottom: calc(var(--BasePadding) - var(--Gap));
+    }
     @media (max-width: 600px) {
         --CardWidth: 75vw;
         display: flex;
         flex-wrap: nowrap;
         width: 100%;
+        margin-bottom: 4vw;
         overflow-x: auto;
         &>* {
             float: none;
