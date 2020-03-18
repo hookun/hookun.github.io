@@ -1,33 +1,49 @@
 import className from './style.css';
 {
-    const tweetListElement = document.querySelector(`.${className.TweetList}`);
-    if (tweetListElement) {
-        const removeStyleAttribute: MutationCallback = (mutations) => {
-            for (const mutation of mutations) {
-                (mutation.target as HTMLElement).removeAttribute('style');
-            }
-        };
-        const observeTwitterWidget = (widgetElement: HTMLElement): MutationObserver => {
-            const observer = new MutationObserver(removeStyleAttribute);
-            observer.observe(widgetElement, {
-                attributeFilter: ['style'],
-                attributes: true,
-            });
-            return observer;
-        };
-        const observer = new MutationObserver((mutations) => {
-            for (const mutation of mutations) {
-                for (const addedNode of mutation.addedNodes) {
-                    const tagName = (addedNode as HTMLElement).tagName.toLowerCase();
-                    switch (tagName) {
-                        case 'twitter-widget':
-                            observeTwitterWidget(addedNode as HTMLElement);
-                            break;
-                        default:
+    const observers = new WeakMap<Element, MutationObserver>();
+    const observe = (
+        element: Element,
+        callback: MutationCallback,
+        init: MutationObserverInit,
+    ) => {
+        const observer = new MutationObserver(callback);
+        observer.observe(element, init);
+        observers.set(element, observer);
+    };
+    const observeTwitterWidgetElement = (widgetElement: Element) => observe(
+        widgetElement,
+        () => widgetElement.removeAttribute('style'),
+        {
+            attributeFilter: ['style'],
+            attributes: true,
+        },
+    );
+    const observeTweetListElement = (tweetListElement: Element) => {
+        for (const widgetElement of tweetListElement.querySelectorAll('twitter-widget')) {
+            observeTwitterWidgetElement(widgetElement);
+        }
+        observe(
+            tweetListElement,
+            (mutations) => {
+                for (const mutation of mutations) {
+                    for (const node of mutation.addedNodes as Iterable<Element>) {
+                        if (node.tagName.toLowerCase() === 'twitter-widget') {
+                            observeTwitterWidgetElement(node);
+                        }
                     }
                 }
-            }
-        });
-        observer.observe(tweetListElement, {childList: true});
-    }
+            },
+            {childList: true},
+        );
+    };
+    let setupRetryCount = 0;
+    const setup = () => {
+        const tweetListElement = document.querySelector(`.${className.TweetList}`);
+        if (tweetListElement) {
+            observeTweetListElement(tweetListElement);
+        } else if (setupRetryCount++ < 10) {
+            setTimeout(setup, 100);
+        }
+    };
+    setup();
 }
