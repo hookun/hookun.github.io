@@ -1,26 +1,18 @@
 main {
     --Gap: 0.5rem;
-}
-
-main>* {
-    width: var(--BaseWidth);
-    margin-left: auto;
-    margin-right: auto;
-}
-
-main>:last-child {
-    margin-bottom: 2rem;
-}
-
-main>h1 {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--ForegroundColor);
+    &>* {
+        width: var(--BaseWidth);
+    }
+    &>h1 {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--ForegroundColor);
+    }
 }
 
 .Logo {
     --PathLength: 1006;
     margin: 3rem auto;
-    max-width: 4rem;
+    max-width: 8rem;
     fill: var(--Black);
     stroke: var(--Black);
     background-color: var(--White);
@@ -64,116 +56,85 @@ main>h1 {
     animation: 6s Eye infinite;
 }
 
-p {
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-p::before {
-    content: '　';
-}
-
 figure {
     max-width: var(--BaseWidth);
     margin-left: auto;
     margin-right: auto;
     border: 1px solid var(--ForegroundColor);
-}
-
-figure>img {
-    display: block;
-    width: 100%;
+    &>img {
+        display: block;
+        width: 100%;
+    }
 }
 
 .App {
     clear: both;
     margin: 2rem auto;
-    font-size: 14px;
-    line-height: 1.4;
-}
-
-.App>figure {
-    float: right;
-    width: calc((var(--BaseWidth) - var(--Gap)) / 2);
-    margin-left: var(--Gap);
-}
-
-.App>h3 {
-    font-weight: bolder;
-}
-
-.App>ul {
-    margin: 1rem auto;
-}
-
-.App>ul>li {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.App::after {
-    clear: both;
-    content: '';
-    display: block;
-    height: 1rem;
-    width: 1rem;
-    background-image: linear-gradient(0deg, var(--ForegroundColor), var(--ForegroundColor));
-    background-size: 100% 1px;
-    background-position: bottom;
-    background-repeat: no-repeat;
-    transform: translateY(-100%);
+    &>h3 {
+        padding: 0;
+        line-height: 1rem;
+        margin: 1rem auto;
+    }
+    &>figure {
+        float: right;
+        width: calc(var(--BaseWidth) / 2 - var(--Gap));
+        margin-left: calc(var(--Gap) * 2);
+    }
+    &::after {
+        clear: both;
+        content: '';
+        display: block;
+        height: 1rem;
+        width: 2rem;
+        margin-top: 1.5rem;
+        background-image: linear-gradient(0deg, var(--ForegroundColor), var(--ForegroundColor));
+        background-size: 100% 1px;
+        background-position: bottom;
+        background-repeat: no-repeat;
+        transform: translateY(-100%);
+    }
 }
 
 .TweetList {
-    --Padding: calc(50% - var(--BaseWidth) / 2);
     --CardWidth: calc((var(--BaseWidth) - var(--Gap)) / 2);
-}
-
-.TweetList>* {
-    width: var(--CardWidth);
-    margin-bottom: var(--Gap);
-}
-
-.TweetList>:nth-child(2n+1) {
-    float: left;
-}
-
-.TweetList>:nth-child(2n) {
-    float: right;
-}
-
-.TweetList::after {
-    clear: both;
-    content: '';
-    display: block;
-    width: 100%;
-    height: 0;
-}
-
-@media (max-width: 600px) {
-    .TweetList {
+    margin: 1rem auto calc(2rem - var(--Gap)) auto;
+    &>* {
+        width: var(--CardWidth);
+        margin-bottom: var(--Gap);
+    }
+    &>:nth-child(2n+1) {
+        float: left;
+    }
+    &>:nth-child(2n) {
+        float: right;
+    }
+    &::after {
+        clear: both;
+        content: '';
+        display: block;
+        width: 100%;
+        height: 0;
+    }
+    @media (max-width: 600px) {
         --CardWidth: 75vw;
         display: flex;
         flex-wrap: nowrap;
         width: 100%;
         overflow-x: auto;
-    }
-    .TweetList>* {
-        float: none;
-        flex: 0 0 var(--CardWidth);
-        margin-right: var(--Gap);
-        margin-bottom: 0;
-    }
-    .TweetList::before {
-        flex: 0 0 var(--Padding);
-        content: '';
-        display: block;
-        height: auto;
-    }
-    .TweetList::after {
-        flex: 0 0 var(--Padding);
-        content: '';
-        display: block;
-        height: auto;
+        &>* {
+            float: none;
+            flex: 0 0 var(--CardWidth);
+            margin-right: var(--Gap);
+            margin-bottom: 0;
+        }
+        &>:last-child {
+            margin-right: 0;
+        }
+        &::before, &::after {
+            flex: 0 0 var(--BasePadding);
+            content: '';
+            display: block;
+            height: auto;
+        }
     }
 }
