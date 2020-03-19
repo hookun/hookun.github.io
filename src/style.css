@@ -11,7 +11,7 @@ main {
 
 .Logo {
     --PathLength: 1006;
-    margin: 3rem auto;
+    margin: 3rem auto 1rem auto;
     max-width: 8rem;
     fill: var(--Black);
     stroke: var(--Black);
